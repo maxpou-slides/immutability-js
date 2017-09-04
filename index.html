@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Immutability for functional javascript</title>
+<link rel="stylesheet" href="reveal.js/css/reveal.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/pikestreet.css">
+<link rel="stylesheet" href="css/github.css">
+<!-- Printing and PDF exports -->
+<script>
+var link  = document.createElement( 'link' );
+link.rel  = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+  <section>
+    <section data-background-image="img/background.jpg">
+      <div class="accent">
+        <h1>Immutability</h1>
+        <h2>for functional javascript</h2>
+      </div>
+      <p class="me-link">
+        <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> -
+        <a href="http://www.maxpou.fr/"><i class="fa fa-globe"></i> maxpou.fr</a> -
+        <a href="mailto:hello@maxpou.fr"><i class="fa fa-envelope-o"></i> hello@maxpou.fr</a>
+      </p>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>Immu...what?</h2>
+    </section>
+    <section>
+      <h2>Functionnal Programming pillars</h2>
+      <ul>
+        <li>Purity</li>
+        <li>Higher-Order Functions</li>
+        <li class="fragment grow visible">Immutability</li>
+      </ul>
+      <br>
+      <br>
+      <p>
+        <small>... and also curying, function composition, referential integrity...</small>
+      </p>
+    </section>
+    <section>
+      <h2>Mutable vs. Immutable state</h2>
+      <p>In Functionnal programming, there is NO variables</p>
+    </section>
+    <section>
+      <h2>Say goodbye to for/while loop</h2>
+      <img src="img/for-loop.jpg" style="border: none;">
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>Why Immutability is important?</h2>
+      <img src="img/fp-tweet.png" alt="">
+      <aside class="notes">
+        <blockquote>
+          Mutable stateful objects are the new spaghetti code
+        </blockquote>
+        <p><i>- Rich Hickey (creator of Closure)</i></p>
+      </aside>
+    </section>
+    <section>
+      <h2>Mutables variables give you headache</h2>
+      <pre><code data-trim>
+        class Hero {
+          constructor () {
+            this.color = 'beige'
+            this.strengh = 1
+          }
+        
+          hulkify () {
+            this.color = 'green'
+            this.strengh = 1000
+          }
+        }
+      </code></pre>
+      <pre class="fragment"><code data-trim>
+        const bruceBanner = new Hero()
+        // ... do something ...
+        bruceBanner.goToRestaurant()
+        // ... do something ...
+        bruceBanner.hulkify() // bring mutation
+        // ... do something ...
+        bruceBanner.fight()
+      </code></pre>
+      <p class="fragment">What if I swap hulkify() and goToRestaurant()</p>
+    </section>
+    <section>
+      <h2>Unwanted mutations</h2>
+      <pre><code data-trim>
+        const today = moment()
+        const nextYear = today.add(1, 'years')
+      </code><code data-trim class="fragment">
+        today === nextYear // true
+      </code></pre>
+    </section>
+    <section>
+      <h2>Unwanted mutations</h2>
+      <pre><code data-trim>
+        function plusOneYear (day) {
+          return day.add(1, 'years')
+        }
+      </code><code data-trim class="fragment">
+        const today = moment()
+        const nextYear = plusOneYear(today)
+        day === nextYear // true
+      </code></pre>
+    </section>
+    <!-- 
+    <section>
+      <h2>Unwanted mutations</h2>
+      <img src="img/pass-by-reference-vs-pass-by-value-animation.gif" alt="">
+    </section>
+    <section>
+      <h2>mutables states inside <code>Array.prototype.map()</code></h2>
+      <pre><code data-trim>
+        const newHeroes = heroes.map(h => {
+          h.toString = h.name.toUpperCase()
+          return h
+        })
+        
+        // newHeroes now contains toString attribute 👍
+        console.table(newHeroes)
+      </code><code class="fragment" data-trim>
+        // heroes now contains toString attribute 👎
+        console.table(heroes)
+      </code></pre>
+    </section> 
+    -->
+    <section>
+      <h2>Make your loop great again</h2>
+      <pre><code data-trim>
+        var squadAlpha = []
+        for (let i=0; i < heroes.length; i++) {
+          if (!heroes[i].isEvil && heroes[i].family !== 'DC Comics') {
+            squadAlpha.push(stringifyHero(heroes[i]))
+          }
+        }
+      </code><code class="fragment" data-trim>
+        // vs.
+        const squadAlphaStr = heroes
+          .filter(hero => !hero.isEvil && hero.family !== 'DC Comics')
+          .map(hero => stringifyHero(hero))
+      </code></pre>
+      <p class="fragment">Note: .map(), .filter() and .reduce() return a new array</p>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>What plain JS already offer?</h2>
+      <pre><code data-trim>
+        var hero = {
+          name: 'Daredevil',
+          location: {
+            city: 'New York',
+            district: 'Kitchen Hell'
+          }
+        }
+      </code></pre>
+    </section>
+    <section>
+      <h2>const</h2>
+      <pre><code data-trim>
+        const hero = {
+          name: 'Daredevil',
+          location: {
+            city: 'New York',
+            district: 'Kitchen Hell'
+          }
+        }
+      </code></pre>
+      <pre class="fragment"><code data-trim>
+        hero = {
+          name: 'The Punisher'
+        } 
+        // Uncaught TypeError: Assignment to constant variable
+      </code></pre>
+    </section>
+    <section>
+      <h2>The end.</h2>
+      <h3>Question?</h3>
+    </section>
+    <section>
+      <h2>Oops ;)</h2>
+      <pre><code data-trim>
+        hero.name = 'The Punisher'
+        console.log(hero) // Object {name: "The Punisher"}
+      </code></pre>
+      <small>That's not a reason not to use it!</small>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2><i>(again)</i> What plain JS already offer?</h2>
+      <pre><code data-trim>
+        const hero = {
+          name: 'Daredevil',
+          location: {
+            city: 'New York',
+            district: 'Kitchen Hell'
+          }
+        }
+      </code></pre>
+    </section>
+    <section>
+      <h2>JSON.parse(JSON.stringify())</h2>
+      <pre><code data-trim>
+        const copy = JSON.parse(JSON.stringify(hero))
+      </code></pre>
+    </section>
+    <section>
+      <h2><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Non-stringifiable types</h2>
+      <pre><code data-trim>
+        const hero = {
+          name: 'Daredevil',
+          sayHello: () => 'hello',
+          banana: undefined,
+          symbol: Symbol()
+        }
+        JSON.parse(JSON.stringify(hero)) // "{"name":"Daredevil"}"
+      </code></pre>
+      <small>In array, Non-stringifiable are replaced by null</small>
+    </section>
+    <section>
+      <h2>Warning with JSON serialisation/deserialisation</h2>
+      <h3>Circular reference</h3>
+      <pre><code data-trim>
+        const daredevil = {
+          friends: [daredevil]
+        }
+
+        // Uncaught TypeError: Converting circular structure to JSON
+      </code></pre>
+    </section>
+    <section>
+      <h2>Object.seal()</h2>
+      <pre><code data-trim>
+        Object.seal(hero)
+        
+        hero.weapon = 'staff'
+        console.log(hero.weapon) // undefined
+
+        hero.location.people = 1000000000
+        console.log(typeof hero.location.people) // number
+      </code></pre>
+    </section>
+    <section>
+      <h2>Object.freeze()</h2>
+      <pre><code data-trim>
+        Object.freeze(hero)
+        
+        hero.name = 'Jessica Jones'
+        console.log(hero.name === 'Jessica Jones') // false
+        
+        hero.location.city = 'Dublin'
+        console.log(hero.location.city === 'Dublin') // true
+        </code></pre>
+    </section>
+    <section>
+      <h2>Object.assign()</h2>
+      <pre><code data-trim>
+        const copy = Object.assign({}, hero)
+        
+        copy.name = 'Jessica Jones'
+        console.log(hero.name === 'Jessica Jones') // false
+        
+        copy.location.city = 'Dublin'
+        console.log(hero.location.city === 'Dublin') // true
+      </code></pre>
+    </section>
+    <section>
+      <h2>Object Spread Properties</h2>
+      <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <a href="https://github.com/tc39/proposal-object-rest-spread">Stage 3 - Candidate</a> (Babel/TS only)</h3>
+      <pre><code data-trim>
+        const newHero = {
+          ...hero,
+          name: 'The Punisher'
+        }
+        console.log(hero.name === newHero.name) // false
+      </code></pre>
+      <pre class="fragment"><code data-trim>
+        newHero.location.district = 'Central Park'
+
+        console.log(hero.location === newHero.location) // true
+      </code></pre>
+    </section>
+    <section>
+      <h3>Same problem everywhere</h3>
+      <h2>deep copy</h2>
+    </section>
+    <section>
+      <h2>Performances</h2>
+      <pre><code data-trim>
+      const heroes = [
+        ⋮
+        { name: 'Daredevil', isReady: false, /* ... others properties ... */ },
+        { name: 'Jessica Jones', isReady: false,  /* ... others properties ... */ },
+        { name: 'Hulk', isReady: false,   /* ... others properties ... */ },
+        { name: 'Gandalf', isReady: true,   /* ... others properties ... */ },
+        ⋮
+        (100 000 heroes)
+      ]
+      </code></pre>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>Immutable data structures</h2>
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture1.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture2.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture3.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture4.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture5.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture6.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture7.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <img src="img/structural-sharing/Picture8.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <h2>Structural sharing</h2>
+      <img src="img/structural-sharing/Picture8.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section data-transition="none">
+      <h2>Structural sharing</h2>
+      <img src="img/structural-sharing/Picture9.png" style="background: none; border: none; box-shadow: none;">
+    </section>
+    <section>
+      <h3>Quick poll:</h3>
+      <h2>Who's using REACT?</h2>
+      <img src="img/react.png" alt="react virtual dom tree" class="fragment" style="border:none;">
+    </section>
+    <section>
+      <h3>Quick poll:</h3>
+      <h2>Who's using Vue+Vuex?</h2>
+      <img src="img/tetris-fail.gif" alt="fail" class="fragment" style="border:none;">
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>Libraries</h2>
+    </section>
+    <section>
+      <img src="img/immutable.png" alt="immutable.js logo" style="border:none;">
+      <p>
+        <small>By Facebook</small>
+      </p>
+    </section>
+    <section>
+      <h2>Usage</h2>
+      <pre><code data-trim>
+      import Immutable from "Immutable"
+      
+      const list         = Immutable.List()
+      const map          = Immutable.Map()
+      const stack        = Immutable.Stack()
+      const record       = Immutable.Record()
+      const seq          = Immutable.Seq()
+      </code></pre>
+      <pre><code data-trim>
+      const immutableHero = Immutable.fromJS(hero)
+      const plainJsHero   = immutableHero.toJS()
+      </code></pre>
+    </section>
+    <section>
+        <h2>Example</h2>
+        <pre><code data-trim>
+        const Immutable = require('../js/immutable.min.js')
+
+        const schedule = Immutable.Map({
+          Monday: "Training",
+          Tuesday: 'Training',
+          Wednesday: 'Going out',
+          Thursday: 'Find something to do',
+          Friday: 'Prepare for the battle',
+          Saturday: 'Save the world',
+          Sunday: 'Relax'
+        })
+        </code></pre>
+        <pre class="fragment"><code data-trim>
+        const Monday = schedule.get("Monday") 
+        const Friday = schedule.set("Friday", "Pizza") 
+        const hasFriday = schedule.has("Friday") 
+        </code></pre>
+      </section>
+    <section>
+      <h2>Example</h2>
+      <pre><code data-trim>
+      const Immutable = require('../js/immutable.min.js')
+      
+      const heroes = [
+        { name: 'Batman',         family: 'DC Comics', isEvil: false },
+        { name: 'Harley Quinn',   family: 'DC Comics', isEvil: true  },
+        { name: 'Legolas',        family: 'Tolkien',   isEvil: false },
+        { name: 'Gandalf',        family: 'Tolkien',   isEvil: false },
+        { name: 'Saruman',        family: 'Tolkien',   isEvil: true  }
+      ]
+
+      const marvel = [
+        { name: 'Wolverine',      family: 'Marvel',    isEvil: false },
+        { name: 'Deadpool',       family: 'Marvel',    isEvil: false },
+        { name: 'Magneto',        family: 'Marvel',    isEvil: true  },
+        { name: 'Charles Xavier', family: 'Marvel',    isEvil: false },
+      ]
+      
+      const newList = Immutable
+        .List.of(...heroes)
+        .push(...marvel)
+        .insert(null, {name: "Groot", family: "Marvel", isEvil: false})
+        .map(item => {
+          return Immutable.Map(item).set('name', Immutable.Map(item).get('name').toUpperCase())
+        })
+        .sort()
+        .toJS()
+      </code></pre>
+    </section>
+    <section>
+      <h2>Performances: Immutables data structures vs native methods</h2>
+      <p><a href="https://github.com/engineforce/ImmutableAssign"><i class="fa fa-github" aria-hidden="true"></i> engineforce/ImmutableAssign</a></p>
+      <pre><code data-trim>
+Immutable (Object.assign)
+  Verification: P-PPPP-PP-PPPPP-PP-PPPPPP-PPPPP-PPPP-PPPP-PPPP
+  Object: read (x500000): 17 ms
+  Object: write (x100000): 107 ms
+  Object: deep read (x500000): 8 ms
+  Object: deep write (x100000): 215 ms
+  Object: very deep read (x500000): 49 ms
+  Object: very deep write (x100000): 290 ms
+  Object: merge (x100000): 137 ms
+  Array: read (x500000): 9 ms
+  Array: write (x100000): 542 ms
+  Array: deep read (x500000): 10 ms
+  Array: deep write (x100000): 519 ms
+Total elapsed = 1903 ms = 93 ms (read) + 1810 ms (write).
+
+Immutable (immutable.js)
+  Verification: P-PPPP-PP-PPPPP-PP-PPPPPP-PPPPP-PPPP-PPPP-PPPP
+  Object: read (x500000): 16 ms
+  Object: write (x100000): 42 ms
+  Object: deep read (x500000): 125 ms
+  Object: deep write (x100000): 104 ms
+  Object: very deep read (x500000): 215 ms
+  Object: very deep write (x100000): 174 ms
+  Object: merge (x100000): 520 ms
+  Array: read (x500000): 20 ms
+  Array: write (x100000): 109 ms
+  Array: deep read (x500000): 103 ms
+  Array: deep write (x100000): 182 ms
+Total elapsed = 1610 ms = 479 ms (read) + 1131 ms (write).
+
+Immutable (Object.assign) + deep freeze
+  Verification: P-PPPP-PP-PPPPP-PP-PPPPPP-PPPPP-PPPP-PPPP-PPPP
+  Object: read (x500000): 18 ms
+  Object: write (x100000): 230 ms
+  Object: deep read (x500000): 29 ms
+  Object: deep write (x100000): 429 ms
+  Object: very deep read (x500000): 45 ms
+  Object: very deep write (x100000): 641 ms
+  Object: merge (x100000): 249 ms
+  Array: read (x500000): 13 ms
+  Array: write (x100000): 14352 ms
+  Array: deep read (x500000): 35 ms
+  Array: deep write (x100000): 13571 ms
+Total elapsed = 29612 ms = 140 ms (read) + 29472 ms (write).
+
+// node v8.2.1 Intel(R) Core(TM) i5-5200U CPU @ 2.20GHz
+      </code></pre>
+    </section>
+    <section>
+      <h2>See also: <a href="https://github.com/swannodette/mori"><i class="fa fa-github" aria-hidden="true"></i> swannodette/mori</a></h2>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>conclusion</h2>
+        <ul>
+          <li>use <code>const</code> as rule of thumb</li>
+          <li>you don't need to be a functional programmer to use functionnal data structures</li>
+        </ul>
+    </section>
+    <section>
+      <div class="accent">
+        <h2>Thank you.</h2>
+        <h3>Questions?</h3>
+      </div>
+      <p class="me-link">
+        <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> -
+        <a href="http://www.maxpou.fr/"><i class="fa fa-globe"></i> maxpou.fr</a> -
+        <a href="mailto:hello@maxpou.fr"><i class="fa fa-envelope-o"></i> hello@maxpou.fr</a>
+      </p>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>Backup slides</h2>
+    </section>
+    <section>
+      <h2>Time traveling</h2>
+      <img src="img/back-to-the-future.jpg" style="border:none;">
+      <aside class="notes">
+        <ul>
+          <li>git</li>
+          <li>CQRS</li>
+        </ul>
+      </aside>
+    </section>
+    <section>
+      <h2>Code Editors</h2>
+      <a class="jsbin-embed" href="http://jsbin.com/wiwihajoko/embed?js,console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?4.0.4"></script>
+    </section>
+    <section>
+      <h2>eslint-plugin-immutable</h2>
+      <p>Rules:</p>
+      <ul>
+        <li>no-let, no-var</li>
+        <li>no-this</li>
+        <li>no-mutation</li>
+      </ul>
+      <p><a href="https://github.com/jhusain/eslint-plugin-immutable"><i class="fa fa-github" aria-hidden="true"></i> jhusain/eslint-plugin-immutable</a></p>
+    </section>
+  </section>
+</div>
+</div>
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
+<script src="js/immutable.min.js" async></script>
+<script>
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+  controls: false,
+  progress: true,
+  slideNumber: true,
+  history: true,
+
+  transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+// Optional reveal.js plugins
+dependencies: [
+  { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+  { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+  { src: 'reveal.js/plugin/notes/notes.js', async: true }
+]
+});
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67868977-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
