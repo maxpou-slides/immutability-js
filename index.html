@@ -25,7 +25,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
         <h1>Immutability</h1>
         <h2>for functional javascript</h2>
       </div>
-      <p class="me-link">
+      <p class="me-link" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5)">
         <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> -
         <a href="http://www.maxpou.fr/"><i class="fa fa-globe"></i> maxpou.fr</a> -
         <a href="mailto:hello@maxpou.fr"><i class="fa fa-envelope-o"></i> hello@maxpou.fr</a>
@@ -93,7 +93,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
         // ... do something ...
         bruceBanner.fight()
       </code></pre>
-      <p class="fragment">What if I swap hulkify() and goToRestaurant()</p>
+      <aside class="notes">What if I swap hulkify() and goToRestaurant()</aside>
     </section>
     <section>
       <h2>Unwanted mutations</h2>
@@ -107,8 +107,8 @@ document.getElementsByTagName('head')[0].appendChild(link);
     <section>
       <h2>Unwanted mutations</h2>
       <pre><code data-trim>
-        function plusOneYear (day) {
-          return day.add(1, 'years')
+        function plusOneYear (aDate) {
+          return aDate.add(1, 'years')
         }
       </code><code data-trim class="fragment">
         const today = moment()
@@ -402,9 +402,9 @@ document.getElementsByTagName('head')[0].appendChild(link);
         })
         </code></pre>
         <pre class="fragment"><code data-trim>
-        const Monday = schedule.get("Monday") 
-        const Friday = schedule.set("Friday", "Pizza") 
-        const hasFriday = schedule.has("Friday") 
+        const mondayActivity    = schedule.get("Monday") 
+        const scheduleWithPizza = schedule.set("Friday", "Pizza") 
+        const hasFriday         = schedule.has("Friday") 
         </code></pre>
       </section>
     <section>
@@ -499,7 +499,7 @@ Total elapsed = 29612 ms = 140 ms (read) + 29472 ms (write).
       <h2>conclusion</h2>
         <ul>
           <li>use <code>const</code> as rule of thumb</li>
-          <li>you don't need to be a functional programmer to use functionnal data structures</li>
+          <li>don't need to be a functional programmer to use functionnal data structures</li>
         </ul>
     </section>
     <section>
