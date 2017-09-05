@@ -51,7 +51,11 @@ document.getElementsByTagName('head')[0].appendChild(link);
     </section>
     <section>
       <h2>Mutable vs. Immutable state</h2>
-      <p>In Functionnal programming, there is NO variables</p>
+      <p>In FP, there is NO variables</p>
+      <pre><code data-trim>
+        var heroName = 'Logan'
+        heroName     = 'Groot' // 🚫 Unauthorized!
+      </code></pre>
     </section>
     <section>
       <h2>Say goodbye to for/while loop</h2>
@@ -116,27 +120,6 @@ document.getElementsByTagName('head')[0].appendChild(link);
         day === nextYear // true
       </code></pre>
     </section>
-    <!-- 
-    <section>
-      <h2>Unwanted mutations</h2>
-      <img src="img/pass-by-reference-vs-pass-by-value-animation.gif" alt="">
-    </section>
-    <section>
-      <h2>mutables states inside <code>Array.prototype.map()</code></h2>
-      <pre><code data-trim>
-        const newHeroes = heroes.map(h => {
-          h.toString = h.name.toUpperCase()
-          return h
-        })
-        
-        // newHeroes now contains toString attribute 👍
-        console.table(newHeroes)
-      </code><code class="fragment" data-trim>
-        // heroes now contains toString attribute 👎
-        console.table(heroes)
-      </code></pre>
-    </section> 
-    -->
     <section>
       <h2>Make your loop great again</h2>
       <pre><code data-trim>
@@ -224,7 +207,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
         const hero = {
           name: 'Daredevil',
           sayHello: () => 'hello',
-          banana: undefined,
+          theUndefinedProperty: undefined,
           symbol: Symbol()
         }
         JSON.parse(JSON.stringify(hero)) // "{"name":"Daredevil"}"
@@ -249,9 +232,10 @@ document.getElementsByTagName('head')[0].appendChild(link);
         
         hero.weapon = 'staff'
         console.log(hero.weapon) // undefined
-
+      </code></pre>
+      <pre class="fragment"><code data-trim>
         hero.location.people = 1000000000
-        console.log(typeof hero.location.people) // number
+        console.log(hero.location.people) // undefined
       </code></pre>
     </section>
     <section>
@@ -287,10 +271,8 @@ document.getElementsByTagName('head')[0].appendChild(link);
           name: 'The Punisher'
         }
         console.log(hero.name === newHero.name) // false
-      </code></pre>
-      <pre class="fragment"><code data-trim>
-        newHero.location.district = 'Central Park'
 
+        newHero.location.district = 'Central Park'
         console.log(hero.location === newHero.location) // true
       </code></pre>
     </section>
@@ -391,7 +373,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
         <pre><code data-trim>
         const Immutable = require('../js/immutable.min.js')
 
-        const schedule = Immutable.Map({
+        const heroSchedule = Immutable.Map({
           Monday: "Training",
           Tuesday: 'Training',
           Wednesday: 'Going out',
@@ -402,9 +384,9 @@ document.getElementsByTagName('head')[0].appendChild(link);
         })
         </code></pre>
         <pre class="fragment"><code data-trim>
-        const mondayActivity    = schedule.get("Monday") 
-        const scheduleWithPizza = schedule.set("Friday", "Pizza") 
-        const hasFriday         = schedule.has("Friday") 
+        const mondayActivity    = heroSchedule.get("Monday")
+        const scheduleWithPizza = heroSchedule.set("Friday", "Pizza")
+        const hasFriday         = heroSchedule.has("Friday")
         </code></pre>
       </section>
     <section>
@@ -498,15 +480,14 @@ Total elapsed = 29612 ms = 140 ms (read) + 29472 ms (write).
     <section>
       <h2>conclusion</h2>
         <ul>
-          <li>use <code>const</code> as rule of thumb</li>
-          <li>don't need to be a functional programmer to use functionnal data structures</li>
+          <li>embrace the power of immutability</li>
+          <li>don't need to be a functional programmer to use immutable data structures</li>
         </ul>
     </section>
     <section>
-      <div class="accent">
-        <h2>Thank you.</h2>
-        <h3>Questions?</h3>
-      </div>
+      <h2>Thank you.</h2>
+      <h3>Questions?</h3>
+      <img src="./img/dogs.webp" style="border:none;">
       <p class="me-link">
         <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> -
         <a href="http://www.maxpou.fr/"><i class="fa fa-globe"></i> maxpou.fr</a> -
@@ -521,16 +502,7 @@ Total elapsed = 29612 ms = 140 ms (read) + 29472 ms (write).
     <section>
       <h2>Time traveling</h2>
       <img src="img/back-to-the-future.jpg" style="border:none;">
-      <aside class="notes">
-        <ul>
-          <li>git</li>
-          <li>CQRS</li>
-        </ul>
-      </aside>
-    </section>
-    <section>
-      <h2>Code Editors</h2>
-      <a class="jsbin-embed" href="http://jsbin.com/wiwihajoko/embed?js,console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?4.0.4"></script>
+      <p><i>Example: git, CQRS...</i></p>
     </section>
     <section>
       <h2>eslint-plugin-immutable</h2>

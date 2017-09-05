@@ -1,4 +1,4 @@
-# Immutability for functional javascript - Maxence POUTORD [@_maxpou](https://twitter.com/_maxpou)
+# Immutability for Functional JavaScript - Maxence POUTORD [@_maxpou](https://twitter.com/_maxpou)
 
 Description: If you follow JavaScript trends, you may have already heard about Functional Programming. This old paradigm is coming back for a very good reason: it is expected to reduce bugs and help you sleep at night. 
 We will focus on one of the pillars of Functional Programing: Immutability. 
