@@ -59,7 +59,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
     </section>
     <section>
       <h2>Say goodbye to for/while loop</h2>
-      <img src="img/for-loop.jpg" style="border: none;">
+      <img src="img/for-loop.jpg">
     </section>
   </section>
   <section>
@@ -300,46 +300,46 @@ document.getElementsByTagName('head')[0].appendChild(link);
       <h2>Immutable data structures</h2>
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture1.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture1.png">
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture2.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture2.png">
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture3.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture3.png">
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture4.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture4.png">
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture5.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture5.png">
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture6.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture6.png">
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture7.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture7.png">
     </section>
     <section data-transition="none">
-      <img src="img/structural-sharing/Picture8.png" style="background: none; border: none; box-shadow: none;">
-    </section>
-    <section data-transition="none">
-      <h2>Structural sharing</h2>
-      <img src="img/structural-sharing/Picture8.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture8.png">
     </section>
     <section data-transition="none">
       <h2>Structural sharing</h2>
-      <img src="img/structural-sharing/Picture9.png" style="background: none; border: none; box-shadow: none;">
+      <img src="img/structural-sharing/Picture8.png">
+    </section>
+    <section data-transition="none">
+      <h2>Structural sharing</h2>
+      <img src="img/structural-sharing/Picture9.png">
     </section>
     <section>
       <h3>Quick poll:</h3>
       <h2>Who's using REACT?</h2>
-      <img src="img/react.png" alt="react virtual dom tree" class="fragment" style="border:none;">
+      <img src="img/react.png" alt="react virtual dom tree" class="fragment">
     </section>
     <section>
       <h3>Quick poll:</h3>
       <h2>Who's using Vue+Vuex?</h2>
-      <img src="img/tetris-fail.gif" alt="fail" class="fragment" style="border:none;">
+      <img src="img/tetris-fail.gif" alt="fail" class="fragment">
     </section>
   </section>
   <section>
@@ -347,7 +347,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
       <h2>Libraries</h2>
     </section>
     <section>
-      <img src="img/immutable.png" alt="immutable.js logo" style="border:none;">
+      <img src="img/immutable.png" alt="immutable.js logo">
       <p>
         <small>By Facebook</small>
       </p>
@@ -487,7 +487,7 @@ Total elapsed = 29612 ms = 140 ms (read) + 29472 ms (write).
     <section>
       <h2>Thank you.</h2>
       <h3>Questions?</h3>
-      <img src="./img/dogs.webp" style="border:none;">
+      <img src="./img/dogs.webp">
       <p class="me-link">
         <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> -
         <a href="http://www.maxpou.fr/"><i class="fa fa-globe"></i> maxpou.fr</a> -
@@ -501,7 +501,7 @@ Total elapsed = 29612 ms = 140 ms (read) + 29472 ms (write).
     </section>
     <section>
       <h2>Time traveling</h2>
-      <img src="img/back-to-the-future.jpg" style="border:none;">
+      <img src="img/back-to-the-future.jpg">
       <p><i>Example: git, CQRS...</i></p>
     </section>
     <section>
@@ -552,5 +552,21 @@ dependencies: [
   ga('create', 'UA-67868977-1', 'auto');
   ga('send', 'pageview');
 </script>
+<style>
+.reveal section img {
+  margin: 0; 
+  background:none; 
+  border: 0; 
+  box-shadow: none; 
+}
+.reveal pre code.hljs::selection,
+.reveal pre span::selection {
+  background: #DA81F5; /* WebKit/Blink Browsers */
+}
+.reveal pre code.hljs::-moz-selection,
+.reveal pre span::-moz-selection {
+  background: #DA81F5; /* Gecko Browsers */
+}
+</style>
 </body>
 </html>
